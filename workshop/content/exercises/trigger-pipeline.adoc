@@ -100,7 +100,7 @@ watch oc get pods
 
 You should see a pod with a name consisting of `deploy-pipeline-run` and `build`.
 When `build` finishes, another pod will be allocated to host the step of the `deploy`
-task of your pipeline.
+task of your pipeline. After `deploy` finishes you will see the nodejs-ex application pod as well.
 
 Tekton CLI Logs
 ---------------
@@ -127,14 +127,14 @@ See the output of the `deploy` task execution:
 
 [source,bash]
 ----
-[deploy : oc]
+[deploy : deploy]
 ----
 
 Upon the successful completion of the pipeline run, you will see the following output from the logs:
 
 [source,bash]
 ----
-[deploy : oc] deploymentconfig.apps.openshift.io/nodejs-ex rolled out
+[deploy : deploy] deploymentconfig.apps.openshift.io/nodejs-ex rolled out
 ----
 
 You can also eventually see the output of the `transfer` task execution with its one step:
@@ -148,6 +148,10 @@ While the pipeline run is executing, you can take a look at how you can visualiz
 a pipeline run through the OpenShift web console in the next section. Leave the logs
 running so that you can confirm the successful deployment and image transfer message when the pipeline run
 finishes.
+
+To check the transfered image, just go to the registry console on IBM Cloud and click on the repositories tab:
+
+image:../images/ibm-image-repository-check-image.png[Check Image Repository ad IBM Cloud]
 
 Clear the terminal without the running logs before continuing:
 [source,bash,role=execute-2]

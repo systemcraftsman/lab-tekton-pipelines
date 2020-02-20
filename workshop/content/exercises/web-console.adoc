@@ -55,7 +55,7 @@ go out and see the application running on OpenShift:
 
 [source,bash]
 ----
-[deploy : oc] deploymentconfig.apps.openshift.io/nodejs-ex rolled out
+[deploy : deploy] deploymentconfig.apps.openshift.io/nodejs-ex rolled out
 ----
 
 Through the web console, the log output will look like what is in the screenshot below:

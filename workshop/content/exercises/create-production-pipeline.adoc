@@ -58,7 +58,7 @@ spec:
       - name: prod-cluster
         type: cluster
   steps:
-    - name: oc
+    - name: deploy
       image: quay.io/openshiftlabs/openshift-cli-tekton-workshop:2.0
       command:
         [
