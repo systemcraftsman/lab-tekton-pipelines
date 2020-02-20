@@ -6,7 +6,7 @@ modules:
         name: Workshop Introduction
     workshop-overview:
         name: Workshop Overview
-    ibmcloud:
+    ibmcloud-prereqs:
         name: IBM Cloud Prerequisites
     concepts:
         name: Tekton Concepts
