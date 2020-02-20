@@ -4,6 +4,7 @@ modules:
     activate:
         - workshop-introduction
         - workshop-overview
+        - ibmcloud
         - concepts
         - install-tekton-operator
         - verify-workshop-environment

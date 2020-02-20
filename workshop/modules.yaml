@@ -6,6 +6,8 @@ modules:
         name: Workshop Introduction
     workshop-overview:
         name: Workshop Overview
+    ibmcloud:
+        name: IBM Cloud Prerequisites
     concepts:
         name: Tekton Concepts
     install-tekton-operator:
