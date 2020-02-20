@@ -1,4 +1,4 @@
-In the previous section, you created two tasks called `s2i-nodejs` and `openshift-client`.
+In the previous section, you created two tasks called `s2i-nodejs` and `deploy`.
 Before adding these to a pipeline, take a look at the definitions of these tasks
 to understand how they work.
 
@@ -144,35 +144,80 @@ resources:
 
 You can view the full definition of this task in the link:https://github.com/openshift/pipelines-catalog/blob/master/s2i-nodejs/s2i-nodejs-task.yaml[OpenShift Pipelines Catalog GitHub repository].
 
-The `openshift-client` task created is much simpler as shown below:
+The `deploy` task created is much simpler as shown below:
 
 [source,yaml]
 ----
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: openshift-client
+  name: deploy
 spec:
   inputs:
     params:
-      - name: ARGS
-        description: The OpenShift CLI arguments to run
-        default: help
+      - name: dc-name
+        description: DeploymentConfig name to deploy
   steps:
     - name: oc
       image: quay.io/openshiftlabs/openshift-cli-tekton-workshop:2.0
       command: ["/usr/local/bin/oc"]
       args:
-        - "$(inputs.params.ARGS)"
+        - "rollout latest $(inputs.params.dc-name)"
 ----
 
-`openshift-client` doesn't have any inputs or outputs associated with it.
+`deploy` doesn't have any inputs or outputs associated with it.
 It also only has one step named `oc`.
 
 This step uses an image with `oc` installed and runs the `oc` root command along with any
-args passed to the step under the `args` property. This `task` allows you to run
-any command with `oc`. You will use it to deploy the image created by the `s2i-nodejs`
+DeploymentConfig name passed to the step under the `dc-name` property. This `task` allows you to deploy the image created by the `s2i-nodejs`
 task to OpenShift. You will see how this takes place in the next section.
 
-In the next section, you will create a pipeline that uses the `s2i-nodejs` and
-`openshift-client` tasks. Click Continue to move to the next section.
+And we have the `transfer-image` task that uses `skopeo` to transfer image from one registry to another:
+
+[source,yaml]
+----
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: transfer-image
+spec:
+  inputs:
+    resources:
+      - name: image
+        type: image
+    params:
+      - name: TLSVERIFY
+        description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
+        default: "false"
+  outputs:
+    resources:
+      - name: image
+        type: image
+  steps:
+    - name: transfer
+      image: quay.io/rhpipeline/skopeo:alpine
+      command:
+        [
+          "skopeo",
+          "copy",
+          "--src-tls-verify=$(inputs.params.TLSVERIFY)",
+          "--dest-tls-verify=$(inputs.params.TLSVERIFY)",
+          "--dest-creds=${EXTERNAL_IMAGE_REGISTRY_USER_NAME}:${EXTERNAL_IMAGE_REGISTRY_PASSWORD}",
+          "docker://$(inputs.resources.image.url)",
+          "docker://$(outputs.resources.image.url)",
+        ]
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+      securityContext:
+        privileged: true
+
+----
+
+In this case we will use `transfer-image` task to transfer the image from OpenShift internal registry to your external registry you setup before.
+
+In the next section, you will create a pipeline that uses the `s2i-nodejs`, `deploy` and `transfer-image` tasks. Click Continue to move to the next section.

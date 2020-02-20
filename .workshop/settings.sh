@@ -1,7 +1,7 @@
 WORKSHOP_NAME=lab-tekton-pipelines
 WORKSHOP_IMAGE=quay.io/openshiftlabs/lab-tekton-pipelines:3.2
-WORKSHOP_TITLE="OpenShift Pipelines with Tekton"
-WORKSHOP_DESCRIPTION="Developing applications using OpenShift pipelines"
+WORKSHOP_TITLE="OpenShift Pipelines with Tekton in a Multi-Cluster Environment"
+WORKSHOP_DESCRIPTION="Developing applications using OpenShift pipelines in a multi-cluster environment"
 CONSOLE_IMAGE=quay.io/openshift/origin-console:4.2
 SPAWNER_PASSWORD=openshift
 RESOURCE_BUDGET=custom

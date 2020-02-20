@@ -12,34 +12,54 @@ apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
   name: deploy-pipeline
+  labels:
+    app: tekton-workshop
 spec:
   resources:
-  - name: app-git
-    type: git
-  - name: app-image
-    type: image
+    - name: app-git
+      type: git
+    - name: app-image
+      type: image
+    - name: app-external-image
+      type: image
   tasks:
-  - name: build
-    taskRef:
-      name: s2i-nodejs
-    params:
-      - name: TLSVERIFY
-        value: "false"
-    resources:
-      inputs:
-      - name: source
-        resource: app-git
-      outputs:
-      - name: image
-        resource: app-image
-  - name: deploy
-    taskRef:
-      name: openshift-client
-    runAfter:
-      - build
-    params:
-    - name: ARGS
-      value: "rollout latest nodejs-ex"
+    - name: build
+      taskRef:
+        name: s2i-nodejs
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: source
+            resource: app-git
+        outputs:
+          - name: image
+            resource: app-image
+    - name: deploy
+      taskRef:
+        name: deploy
+      runAfter:
+        - build
+      params:
+        - name: dc-name
+          value: "nodejs-ex"
+    - name: transfer
+      taskRef:
+        name: transfer-image
+      runAfter:
+        - deploy
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: image
+            resource: app-image
+        outputs:
+          - name: image
+            resource: app-external-image
+
 ----
 
 This pipeline performs the following:
@@ -47,7 +67,8 @@ This pipeline performs the following:
 1. Clones the source code of the application from a git repository (i.e. `app-git` resource)
 2. Builds the container image using the `s2i-nodejs` task that generates a Dockerfile for the application and uses Buildah to build the image
 3. The application image is pushed to an image registry (i.e. `app-image` resource)
-4. The new application image is deployed on OpenShift using the `openshift-client` task
+4. The new application image is deployed on OpenShift using the `deploy` task
+5. The new application image is transferred to the external registry using the `transfer-image` task
 
 The pipeline definition above shows how tasks can be added to a pipeline.
 Each pipeline has a `tasks` property. Under this property, each `task` has a `name`.
@@ -68,8 +89,8 @@ git repositories and image registries to be used during a pipeline execution. Yo
 will do that in the next section.
 
 For the `deploy` task of the pipeline, you can see under the `params` property that
-a value is passed: `"rollout latest nodejs-ex"`. This argument is how `oc rollout latest nodejs-ex`
-will be run for the `oc` step of the `openshift-client` `task`. This command deploys
+a value is passed: `"nodejs-ex"`. This argument is how `oc rollout latest nodejs-ex`
+will be run for the `oc` step of the `deploy` task. This command deploys
 an image called `nodejs-ex` that has the tag `latest` associated with it, meaning the
 most recently pushed version of the image.
 
@@ -197,7 +218,7 @@ two pipeline resources: `app-git` and `app-image` as shown below:
 image:../images/pipeline-resources-console.png[Pipeline Resources Console]
 
 You will need to create these resources so that `deploy-pipeline` has the proper git repo
-input and knows where to push the resulting image for `nodejs-ex` to.
+input and knows where to push the resulting image for `nodejs-ex` to and transfers the same image to external registry.
 
 Before moving on to the next section, click the **Pipelines** tab on the left side
 of the web console to return to the **Pipelines** tab main page.

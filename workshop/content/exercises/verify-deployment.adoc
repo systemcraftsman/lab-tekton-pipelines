@@ -29,6 +29,6 @@ If you were to redeploy `nodejs-ex` with another pipeline run, the data in the M
 would persist. This would allow you to make updates to the application while preserving
 the data that it uses.
 
-Congratulations! You have successfully deployed your first application using OpenShift Pipelines.
+Congratulations! You have successfully deployed your first application using OpenShift Pipelines. 
 
-Click Continue for additional resources on OpenShift Pipelines and Tekton.
+Now it is time to promote the application image to *prod* OpenShift cluster you set up before which is on IBM Cloud.

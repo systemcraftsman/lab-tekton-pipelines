@@ -26,3 +26,4 @@ In this tutorial, you will do the following:
 * Add pipeline resources
 * Trigger a pipelinerun
 * Deploy a sample application on OpenShift from a pipelinerun
+* Deploy the same application on another OpenShift cluster as *prod* that you will provision at IBM Cloud in the beginning of the workshop.

@@ -53,17 +53,36 @@ apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
   name: nodejs-ex-image
+  labels:
+    app: tekton-workshop
 spec:
   type: image
   params:
   - name: url
-    value: %image_registry%/%project_namespace%/nodejs-ex
+    value: ${OPENSHIFT_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex
 ----
 
 The format follows the same structure as the git pipeline resource. The main difference
 is that a type of `image` is specified under the `spec` property, meaning this is an
 image registry that will have an image pushed to it. The url for the registry is
 specified under the `params` property just like with the git pipeline resource.
+
+The following defines the OpenShift external registry for the deployed `nodejs-ex` image:
+
+[source,yaml]
+----
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: nodejs-ex-external-image
+  labels:
+    app: tekton-workshop
+spec:
+  type: image
+  params:
+    - name: url
+      value: ${EXTERNAL_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex
+----
 
 Create the above pipeline resources via the `oc` commands below.
 
@@ -81,6 +100,15 @@ of the pipeline:
 ----
 oc create -f exercise/image-pipeline-resource.yaml
 ----
+
+Add the external registry for the image to be transfered to as an output of the `transfer-image` task
+of the pipeline:
+
+[source,bash,role=execute-1]
+----
+oc create -f exercise/external-image-pipeline-resource.yaml
+----
+
 
 You can see the pipeline resources created using `tkn`:
 

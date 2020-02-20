@@ -48,7 +48,7 @@ pipelines and purposes. You can find more examples of reusable tasks in the link
 and link:https://github.com/openshift/pipelines-catalog[OpenShift Catalog] repositories.
 
 Now that you understand the concept of a task, you should create the `s2i-nodejs`
-and `openshift-client` tasks from the catalog repositories using `oc`. These will
+and `deploy` tasks from the catalog repositories using `oc`. These will
 be the tasks you add to your pipeline for this workshop.
 
 Create the `s2i-nodejs` task that will define and build a container image for the
@@ -59,12 +59,19 @@ Create the `s2i-nodejs` task that will define and build a container image for th
 oc create -f tektontasks/s2i-nodejs-task.yaml
 ----
 
-Create the `openshift-client` task that will deploy the image created by `s2i-nodejs`
+Create the `deploy` task that will deploy the image created by `s2i-nodejs`
 as a container on OpenShift:
 
 [source,bash,role=execute-1]
 ----
-oc create -f tektontasks/openshift-client-task.yaml
+oc create -f tektontasks/deploy-task.yaml
+----
+
+Create the `transfer-image` task that will transfer the deployed image to your external registry, for deploying your *prod* cluster later.
+
+[source,bash,role=execute-1]
+----
+oc create -f tektontasks/transfer-image-task.yaml
 ----
 
 **NOTE**: For convenience, the tasks have been copied from their original locations
@@ -82,8 +89,9 @@ You should see similar output to this:
 [source,bash]
 ----
 NAME               AGE
-openshift-client   58 seconds ago
+deploy   58 seconds ago
 s2i-nodejs         1 minute ago
+transfer-image   3 seconds ago
 ----
 
 In the next section, you will examine the task definitions you just created to

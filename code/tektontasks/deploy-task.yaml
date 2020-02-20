@@ -1,16 +1,15 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: openshift-client
+  name: deploy
 spec:
   inputs:
     params:
-      - name: ARGS
-        description: The OpenShift CLI arguments to run
-        default: help
+      - name: dc-name
+        description: DeploymentConfig name to deploy
   steps:
     - name: oc
       image: quay.io/openshiftlabs/openshift-cli-tekton-workshop:2.0
       command: ["/usr/local/bin/oc"]
       args:
-        - "$(inputs.params.ARGS)"
+        - "rollout latest $(inputs.params.dc-name)"

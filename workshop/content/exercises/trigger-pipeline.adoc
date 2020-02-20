@@ -28,6 +28,9 @@ spec:
   - name: app-image
     resourceRef:
       name: nodejs-ex-image
+  - name: app-external-image
+    resourceRef:
+      name: nodejs-ex-external-image
 ----
 
 Under the `spec` property, you'll see the `pipelineRef` property where the pipeline
@@ -56,6 +59,7 @@ Run the command below to kick off the pipeline run:
 tkn pipeline start deploy-pipeline \
         -r app-git=nodejs-ex-git \
         -r app-image=nodejs-ex-image \
+        -r app-external-image=nodejs-ex-external-image \
         -s pipeline
 ----
 
@@ -91,7 +95,7 @@ command:
 
 [source,bash,role=execute-2]
 ----
-oc get pods
+watch oc get pods
 ----
 
 You should see a pod with a name consisting of `deploy-pipeline-run` and `build`.
@@ -119,7 +123,7 @@ As these logs come in via `tkn`, you can see output from the task-step combinati
 [build : push]
 ----
 
-You can also eventually see the output of the `deploy` task execution with its one step:
+See the output of the `deploy` task execution:
 
 [source,bash]
 ----
@@ -133,9 +137,16 @@ Upon the successful completion of the pipeline run, you will see the following o
 [deploy : oc] deploymentconfig.apps.openshift.io/nodejs-ex rolled out
 ----
 
+You can also eventually see the output of the `transfer` task execution with its one step:
+
+[source,bash]
+----
+[transfer : transfer]
+----
+
 While the pipeline run is executing, you can take a look at how you can visualize
 a pipeline run through the OpenShift web console in the next section. Leave the logs
-running so that you can confirm the successful deployment message when the pipeline run
+running so that you can confirm the successful deployment and image transfer message when the pipeline run
 finishes.
 
 Clear the terminal without the running logs before continuing:

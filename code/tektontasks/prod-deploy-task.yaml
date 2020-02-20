@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: prod-deploy
+spec:
+  inputs:
+    params:
+      - name: dc-name
+        description: DeploymentConfig name to deploy
+      - name: project-name
+        description: Project namespace
+    resources:
+      - name: image
+        type: image
+      - name: prod-cluster
+        type: cluster
+  steps:
+    - name: oc
+      image: quay.io/openshiftlabs/openshift-cli-tekton-workshop:2.0
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "oc login $(inputs.resources.prod-cluster.url) --token=$(inputs.resources.prod-cluster.token) --insecure-skip-tls-verify && oc project $(inputs.params.project-name) && oc import-image $(inputs.params.dc-name) --from=$(inputs.resources.image.url):latest --confirm --insecure && oc rollout latest $(inputs.params.dc-name)",
+        ]

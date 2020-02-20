@@ -6,29 +6,46 @@ metadata:
     app: tekton-workshop
 spec:
   resources:
-  - name: app-git
-    type: git
-  - name: app-image
-    type: image
+    - name: app-git
+      type: git
+    - name: app-image
+      type: image
+    - name: app-external-image
+      type: image
   tasks:
-  - name: build
-    taskRef:
-      name: s2i-nodejs
-    params:
-      - name: TLSVERIFY
-        value: "false"
-    resources:
-      inputs:
-      - name: source
-        resource: app-git
-      outputs:
-      - name: image
-        resource: app-image
-  - name: deploy
-    taskRef:
-      name: openshift-client
-    runAfter:
-      - build
-    params:
-    - name: ARGS
-      value: "rollout latest nodejs-ex"
+    - name: build
+      taskRef:
+        name: s2i-nodejs
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: source
+            resource: app-git
+        outputs:
+          - name: image
+            resource: app-image
+    - name: deploy
+      taskRef:
+        name: deploy
+      runAfter:
+        - build
+      params:
+        - name: dc-name
+          value: "nodejs-ex"
+    - name: transfer
+      taskRef:
+        name: transfer-image
+      runAfter:
+        - deploy
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: image
+            resource: app-image
+        outputs:
+          - name: image
+            resource: app-external-image

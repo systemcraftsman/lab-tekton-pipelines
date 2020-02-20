@@ -1,18 +1,13 @@
-Lab - OpenShift Pipelines with Tekton
-====================
+# Lab - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
 
-This workshop provides an introduction to OpenShift Pipelines with Tekton.
-Please check [releases](https://github.com/openshift-labs/lab-tekton-pipelines/releases)
-for the latest version of the workshop and also make sure to note if a version
-released has been deprecated.
+This workshop provides an introduction to OpenShift Pipelines with Tekton in a Multi-Cluster Environment which uses IBM Cloud for pseudo-**prod** OpenShift cluster, and an external pseudo-**non-prod** cluster for both running the workshop and run non-prod pipeline operations.
 
 The workshop uses the HomeRoom workshop environment in the learning portal configuration.
 You will need to be a cluster admin in order to deploy it.
 
 When the URL for the workshop environment is accessed, a workshop session will be created on demand.
 
-Deploying the Workshop
-----------------------
+## Deploying the Workshop
 
 To deploy the workshop, first clone this Git repository to your own machine.
 
@@ -49,8 +44,7 @@ oc get route lab-tekton-pipelines
 
 When the URL is accessed, you will be prompted to login. For the user name, use your email address or other name which would uniquely identify you. This is just used as an identifier for your session if you need to login again to the same session again. What you use for the user name isn't recorded in any way. For the password, use "openshift".
 
-Editing the Workshop
---------------------
+## Editing the Workshop
 
 The deployment created above will use a version of the workshop which has been pre-built into an image and which is hosted on `quay.io`.
 
@@ -80,7 +74,7 @@ Note that if you do this, you will need to re-run:
 .workshop/scripts/build-workshop.sh
 ```
 
-to have any local content changes be used once again as it will revert back to using the image on ``quay.io``.
+to have any local content changes be used once again as it will revert back to using the image on `quay.io`.
 
 If you need to ever update the deployment scripts pulled in via a git submodule to the latest version, run:
 
@@ -90,8 +84,7 @@ git submodule update --recursive --remote
 
 The update will be staged immediately, so don't forget to commit it.
 
-Deleting the Workshop
----------------------
+## Deleting the Workshop
 
 To delete the spawner and any active sessions, including projects, run:
 

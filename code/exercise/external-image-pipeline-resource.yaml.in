@@ -1,11 +1,11 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-  name: nodejs-ex-git
+  name: nodejs-ex-external-image
   labels:
     app: tekton-workshop
 spec:
-  type: git
+  type: image
   params:
     - name: url
-      value: https://github.com/sclorg/nodejs-ex
+      value: ${EXTERNAL_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex

@@ -60,7 +60,11 @@ go out and see the application running on OpenShift:
 
 Through the web console, the log output will look like what is in the screenshot below:
 
-image:../images/web-console-logs-success.png[Web Console Logs Success]
+image:../images/web-console-logs-deploy-success.png[Web Console Logs Success]
+
+And the transfer step should be like this:
+
+image:../images/web-console-logs-transfer-success.png[Web Console Logs Success]
 
 If you do not see the message, just continue to watch the logs come in from the web console
 or `tkn` as your pipeline run finishes up.
@@ -81,10 +85,14 @@ Before seeing the application successfully deployed on OpenShift, let's look at 
 aspects of the pipeline run that just occurred in the next section. Clear your terminals
 before continuing:
 
+1st terminal:
+
 [source,bash,role=execute-1]
 ----
 clear
 ----
+
+2nd terminal:
 
 [source,bash,role=execute-2]
 ----
