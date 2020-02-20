@@ -125,6 +125,13 @@ docker login -u iamapikey -p <your_apikey> us.icr.io/<your-namespace>
 
   P.S. iamapikey must be the user name.
 
+[NOTE]
+====
+*IMPORTANT*: This api key will be used in the setup environment section.
+
+* *EXTERNAL_IMAGE_REGISTRY_PASSWORD*=<apikey in the json file>
+====
+
 
 == Claim your OpenShift Cluster for the workshop
 
@@ -150,3 +157,31 @@ image:./images/ibmcloud/clusters2.png[OpenShift Clusters 2]
 
 . Click to "*OpenShift Web Console*" button to access your clusters console screen.
 image:./images/ibmcloud/openshift-console.png[OpenShift Clusters 2]
+
+== Getting OpenShift Login Credentials
+
+This section describes how to get OpenShift server address and login token. These informations will be used in next sections, that's why you should *copy* these informations to your favorite text editor.
+
+.When you open your OpenShift's console, you will see the landing dashboard. 
+
+. First, click to your name on top left of the page.
+. Then click to *Copy Login Command* item to copy login informations.
+. Finally, paste this command to a text editor.
+
+image:./images/ibmcloud/copy-informations.png[OpenShift Clusters 1]
+
+
+You will see a command similar to the one as follows:
+
+[source, bash]
+----
+oc login https://c100-e.eu-gb.containers.cloud.ibm.com:31211 --token=<token>
+----
+
+[NOTE]
+====
+The environment variables listed below will be used in next sections when defining environment variable for pipeline.
+
+* *PROD_CLUSTER_URL*: https://c100-e.eu-gb.containers.cloud.ibm.com:31211 (Replace with your own URL which is in your copied command)
+* *PROD_CLUSTER_TOKEN*: the token you received when you copied the login command. This is the string after the *--token=* argument.
+====
