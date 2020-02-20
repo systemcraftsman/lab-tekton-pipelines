@@ -11,9 +11,9 @@ Fill in the relevant areas:
 
 [source,bash]
 ----
-export EXTERNAL_IMAGE_REGISTRY_PASSWORD=
-export PROD_CLUSTER_URL=
-export PROD_CLUSTER_TOKEN=
+export EXTERNAL_IMAGE_REGISTRY_PASSWORD=[IBM REGISTRY TOKEN]
+export PROD_CLUSTER_URL=[IBM CLOUD OPENSHIFT URL]
+export PROD_CLUSTER_TOKEN=[IBM CLOUD OPENSHIFT TOKEN]
 ----
 
 Save the file with a `wq!` and exit.
