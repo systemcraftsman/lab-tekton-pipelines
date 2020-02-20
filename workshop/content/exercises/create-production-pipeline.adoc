@@ -26,10 +26,10 @@ When the Openshift console is opened check the pods and DeploymentConfigs by swi
 
 image:../images/prod-ocp-web-console-overview.png[Prod OCP Web Console Overview]
 
-[quote]
-____
+[NOTE]
+====
 Since the prod cluster you setup in IBM Cloud is based on OpenShift 3.11 version, the UI is different from the cluster we use for non-prod environment.
-____
+====
 
 
 After being sure everything is setup with no problem, let's have a look at the pipeline structure you will create:
