@@ -1,4 +1,4 @@
-PREPROD_CLUSTER_URL=https://api.cluster-5eba.5eba.sandbox1895.opentlc.com:6443
+PREPROD_CLUSTER_URL=https://api.cluster-devnot-76ea.devnot-76ea.example.opentlc.com:6443
 EXTERNAL_IMAGE_REGISTRY_URI=us.icr.io
 EXTERNAL_IMAGE_REGISTRY=$EXTERNAL_IMAGE_REGISTRY_URI/workshop-$JUPYTERHUB_USER
 EXTERNAL_IMAGE_REGISTRY_USER_NAME=iamapikey
