@@ -13,6 +13,6 @@ oc new-app centos/mongodb-36-centos7 -e MONGODB_USER=admin MONGODB_DATABASE=mong
 oc set env dc/nodejs-ex MONGO_URL="mongodb://admin:secret@mongodb-36-centos7:27017/mongodb" &&
 echo "Prepared!" &&
 
-echo "Switching back to PRE-PROD cluster" 
+echo "Switching back to NON-PROD cluster" 
 oc login $PREPROD_CLUSTER_URL --token=$PREPROD_CLUSTER_TOKEN --insecure-skip-tls-verify &&
 oc project $PROJECT_NAMESPACE

@@ -18,6 +18,11 @@ OpenShift Pipelines features:
 This tutorial walks you through Tekton concepts and how to create and run a simple pipeline
 for building and deploying a containerized app on OpenShift.
 
+You will have one `non-prod` OpenShift cluster which also includes this workshop and a `prod` OpenShift cluster which you will setup on IBM Cloud before beginning to this workshop:
+
+image:images/workshop-general-diagram.png[Workshop General Diagram]
+
+
 In this tutorial, you will do the following:
 
 * Learn about Tekton concepts
