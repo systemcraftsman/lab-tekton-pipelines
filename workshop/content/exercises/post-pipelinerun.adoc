@@ -8,7 +8,7 @@ OpenShift will save all the logs for a particular pipeline run in case you wish 
 go back and review the logs.
 
 As mentioned previously, the tasks of `deploy-pipeline` are listed on the left side
-of the logs. You should see the `build` and `deploy` tasks as is shown in the screenshot
+of the logs. You should see the `build`, `deploy` and `transfer` tasks as is shown in the screenshot
 below:
 
 image:../images/task-logs.png[Task Logs]
@@ -39,9 +39,10 @@ include steps to make sure the container does not run as a root user (`STEP 3` a
 It also uses `npm` to install dependencies for `nodejs-ex` (`STEP 7`). Finally, you
 should see a commit to the OpenShift image registry (`STEP 9`).
 
-The last step of note is `STEP-PUSH` that shows details of pushing the commit from
-`STEP-BUILD` to the OpenShift image registry. You can scroll down to the end of the logs
-to see the output of this step.
+The next step of note is `STEP-PUSH` that shows details of pushing the commit from
+`STEP-BUILD` to the OpenShift image registry.
+
+The last step of note is `STEP-TRANSFER` that shows details of transfering the image from OpenShift image registry to external IBM Cloud image registry. You can scroll down to the end of the logs to see the output of this step.
 
 You can also view more information about the pipeline run via `tkn` by running the
 command below:
