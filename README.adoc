@@ -8,7 +8,7 @@ pseudo-*prod* OpenShift cluster, and an external pseudo-*non-prod*
 cluster for both running the workshop and run non-prod pipeline
 operations.
 
-Here is the basic architecture as an output of this workshop:
+Here is the basic architecture of this workshop:
 
 image:./workshop/content/images/workshop-general-diagram.png[Workshop General Diagram]
 
