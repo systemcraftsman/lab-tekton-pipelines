@@ -10,17 +10,17 @@ operations.
 
 Here is the basic architecture as an output of this workshop:
 
-image:images/workshop-general-diagram.png[Workshop General Diagram]
+image:./workshop/content/images/workshop-general-diagram.png[Workshop General Diagram]
 
 The workshop will include two pipelines regarding to the infrastructure above:
 
 ==== Non-prod Pipeline
 
-image:../images/pipeline-visual.png[Pipeline Visualization]
+image:./workshop/content/images/pipeline-visual.png[Pipeline Visualization]
 
 ==== Prod Pipeline
 
-image:../images/prod-pipeline-visual.png[Prod Pipeline Visualization]
+image:./workshop/content/images/prod-pipeline-visual.png[Prod Pipeline Visualization]
 
 The workshop uses the HomeRoom workshop environment in the learning
 portal configuration. You will need to be a cluster admin in order to
