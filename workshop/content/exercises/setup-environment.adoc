@@ -16,7 +16,7 @@ export PROD_CLUSTER_URL=[IBM CLOUD OPENSHIFT URL]
 export PROD_CLUSTER_TOKEN=[IBM CLOUD OPENSHIFT TOKEN]
 ----
 
-Save the file with a `wq!` and exit.
+Save the file with a `:wq!` and exit.
 
 Now you can run the `setup-environment.sh` file for setting up the environment.
 
