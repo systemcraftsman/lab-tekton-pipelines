@@ -38,9 +38,10 @@ When you clone the repository, ensure you use the `--recurse-submodules`
 option with the `git clone` command. Alternatively, after having cloned
 the repository, within the repository directory, run:
 
-....
+[source,bash]
+----
 git submodule update --init --recursive
-....
+----
 
 The option to `git clone`, or the `git submodule update` command, ensure
 that a copy of a Git submodule which contains scripts to help you deploy
@@ -49,16 +50,25 @@ the workshop will also be cloned.
 Next create a project in OpenShift into which the workshop is to be
 deployed.
 
-....
+[source,bash]
+----
 oc new-project workshops
-....
+----
 
 From within the top level of the Git repository, now run the command
 below.
 
-....
+[source,bash]
+----
 .workshop/scripts/deploy-spawner.sh
-....
+----
+
+After the deployment finishes you have to build the workshop since no image for this fork of workshop is not preferred to be provided:
+
+[source,bash]
+----
+.workshop/scripts/build-workshop.sh
+----
 
 *NOTE:* The default max number of sessions (i.e. users who can access
 the workshop at the same time) defaults to 50. The number for the max
