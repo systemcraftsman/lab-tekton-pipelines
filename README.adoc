@@ -1,4 +1,4 @@
-== Lab - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
+== Workshop - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
 
 === Overview
 
