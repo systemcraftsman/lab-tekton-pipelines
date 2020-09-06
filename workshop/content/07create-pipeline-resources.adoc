@@ -1,10 +1,15 @@
-Before we can trigger the pipeline just created, pipeline resources must be defined as inputs and outputs for the build task of the pipeline.
+Before we can trigger the pipeline just created, pipeline resources must be
+defined as inputs and outputs for the `build` task of the pipeline.
 
-The build task of your pipeline takes a git repository as an input and then produces an image that is pushed to an image registry. Pipeline resources are how you can specify the specific URLs of the git repository and the image registry.
+The `build` task of your pipeline takes a git repository as an input and then
+produces an image that is pushed to an image registry. Pipeline resources are how
+you can specify the specific urls of the git repository and the image registry.
 
-Much like tasks, these pipeline resources are reusable. The git repository pipeline resource could be used as an input to a different task on a different pipeline, and the image registry output could be used for a different image as the result of a task run.
+Much like tasks, these pipeline resources are reusable. The git repository pipeline resource
+could be used as an input to a different task on a different pipeline, and the
+image registry output could be used for a different image as the result of a task run.
 
-The following pipeline resource defines the git repository and reference for the _nodejs-ex_ application:
+The following pipeline resource defines the git repository and reference for the `nodejs-ex` application:
 
 [source,yaml]
 ----
@@ -12,8 +17,6 @@ apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
   name: nodejs-ex-git
-  labels:
-    app: tekton-workshop
 spec:
   type: git
   params:
@@ -21,11 +24,28 @@ spec:
     value: https://github.com/sclorg/nodejs-ex
 ----
 
-You can see above that the resource has a name (i.e. _nodejs-ex-git_), and, under the spec property, we define that this pipeline resource has a type of git, meaning it is a git repository.
+You can see above that the resource has a name (i.e. `nodejs-ex-git`), and, under
+the `spec` property, we define that this pipeline resource has a type of `git`, meaning
+it is a git repository.
 
-The last property of _nodejs-ex-git_ is params and is used to specify the URL associated with the git input.
+The `type` of a pipeline resource corresponds to a list a valid options for pipeline resources.
+These valid options include:
 
-The following defines the OpenShift internal registry for the resulting _nodejs-ex_ image to be pushed to:
+* `git` - indicates a pipeline resource is a GitHub repository
+* `image` - indicates a pipeline resource is a container image
+* `storage` - indicates a pipeline resource is a storage blob resource
+* `cluster` - indicates a pipeline resource is a Kubernetes cluster image
+* `pullRequest` - indicates a pipeline resource is an SCM pull request
+* `cloudEvent` - indicates a pipeline resource is a cloud event URI
+
+There will be more valid types added to the Tekton API moving forward, but you will
+only need to focus on the `git` and `image` types for this workshop.
+
+The last property of `nodejs-ex-git` is `params`, which can be used to specify
+the url associated with the git input.
+
+The following defines the OpenShift internal registry for the resulting `nodejs-ex`
+image to be pushed to:
 
 [source,yaml]
 ----
@@ -39,52 +59,97 @@ spec:
   type: image
   params:
   - name: url
-    value: image-registry.openshift-image-registry.svc:5000/lab-tekton/nodejs-ex:latest
+    value: ${OPENSHIFT_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex
 ----
 
-The format follows the same structure as the git pipeline resource. The main difference is that a type of image is specified under the spec property, meaning this is an image registry that will have an image pushed to it. The URL for the registry is specified under the params property, just like with the git pipeline resource. In this case, we are using OpenShift's internal registry.
+The format follows the same structure as the git pipeline resource. The main difference
+is that a type of `image` is specified under the `spec` property, meaning this is an
+image registry that will have an image pushed to it. The url for the registry is
+specified under the `params` property just like with the git pipeline resource.
 
-Create the above pipeline resources via the oc commands below.
+The following defines the OpenShift external registry for the deployed `nodejs-ex` image:
+
+[source,yaml]
+----
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: nodejs-ex-external-image
+  labels:
+    app: tekton-workshop
+spec:
+  type: image
+  params:
+    - name: url
+      value: ${EXTERNAL_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex
+----
+
+Create the above pipeline resources via the `oc` commands below.
 
 Add the git repository input for the pipeline:
 
-[source,bash,role=execute]
+[source,bash,role=execute-1]
 ----
 oc create -f resources/git-pipeline-resource.yaml
 ----
 
-Add the registry for the image to be pushed to as an output of the build task of the pipeline:
+Add the registry for the image to be pushed to as an output of the `build` task
+of the pipeline:
 
-[source,bash,role=execute]
+[source,bash,role=execute-1]
 ----
 oc create -f resources/image-pipeline-resource.yaml
 ----
 
-You can see the pipeline resources created using tkn:
+Add the external registry for the image to be transfered to as an output of the `transfer-image` task
+of the pipeline:
 
-[source,bash,role=execute]
+[source,bash,role=execute-1]
+----
+oc create -f resources/external-image-pipeline-resource.yaml
+----
+
+
+You can see the pipeline resources created using `tkn`:
+
+[source,bash,role=execute-1]
 ----
 tkn resource ls
 ----
 
-You can also get more information about the pipeline resources in your OpenShift project using the command below. Run the command below to see information about the _nodejs-ex-git_ pipeline resource:
+You can also get more information about the pipeline resources in your OpenShift project
+using the command below. Run the command below to see information about the `nodejs-ex-git`
+pipeline resource:
 
-[source,bash,role=execute]
+[source,bash,role=execute-1]
 ----
 tkn resource describe nodejs-ex-git
 ----
 
-You should see the name of the pipeline resource, the Namespace (i.e. your OpenShift project), it has been created in, and a PipelineResource Type of git to specify this is a git repository.
+You should see the `Name` of the pipeline resource, the `Namespace` (i.e. your OpenShift project)
+it has been created in, and a `PipelineResource Type` of `git` to specify this is a git repository.
 
-It also shows the URL of the git repository you use under the Params section of the output. Also, notice the section of the output called Secret Params. These secret params are how you can mask sensitive information associated with pipeline resources, such as a password or key.
+It also shows the url of the git repository you will use under the `Params` section
+of the output. You will also notice a section of the output called `Secret Params`. These
+secret params are how you can mask sensitive information associated with pipeline resources,
+such as a password or key.
 
-You can also describe the _nodejs-ex-image_ pipeline resource by running the command below:
+You can also describe the `nodejs-ex-image` pipeline resource by running the command below:
 
-[source,bash,role=execute]
+[source,bash,role=execute-1]
 ----
 tkn resource describe nodejs-ex-image
 ----
 
-The primary difference you should notice is that _nodejs-ex-image_ is of PipelineResource Type image. You should also notice the OpenShift image registry URL that is specific to the OpenShift project you are working in.
+The major difference you should notice is that `nodejs-ex-image` is of `PipelineResource Type`
+`image`. You should also notice the OpenShift image registry url that is specific to the
+OpenShift project you are working in.
 
-Now that pipeline resources have been specified, you can include these as part of a pipeline run that will deploy the _nodejs-ex_ application out to OpenShift.
+Now that pipeline resources have been specified, you can include these as part
+of a pipeline run that will deploy the `nodejs-ex` application out to OpenShift.
+Clear your terminal before continuing:
+
+[source,bash,role=execute-1]
+----
+clear
+----

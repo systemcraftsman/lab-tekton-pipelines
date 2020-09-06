@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: prod-deploy-pipeline
+  labels:
+    app: tekton-workshop
+spec:
+  resources:
+    - name: app-external-image
+      type: image
+    - name: prod-cluster
+      type: cluster
+  tasks:
+    - name: deploy
+      taskRef:
+        name: prod-deploy
+      params:
+        - name: dc-name
+          value: "nodejs-ex"
+        - name: project-name
+          value: "${PROJECT_NAMESPACE}"
+      resources:
+        inputs:
+          - name: prod-cluster
+            resource: prod-cluster
+          - name: image
+            resource: app-external-image

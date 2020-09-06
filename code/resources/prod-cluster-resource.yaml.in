@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: prod-cluster
+  labels:
+    app: tekton-workshop
+spec:
+  type: cluster
+  params:
+    - name: name
+      value: prod-cluster
+    - name: url
+      value: ${PROD_CLUSTER_URL}
+    - name: username
+      value: ''
+    - name: password
+      value: ''
+    - name: token
+      value: ${PROD_CLUSTER_TOKEN}
+    - name: cadata
+      value: ''

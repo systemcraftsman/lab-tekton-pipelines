@@ -18,6 +18,8 @@ spec:
     type: git
   - name: app-image
     type: image
+  - name: app-external-image
+    type: image
   tasks:
   - name: build
     taskRef:

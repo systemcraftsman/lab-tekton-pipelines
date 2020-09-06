@@ -66,3 +66,10 @@ You'll notice the white circle around the _nodejs-ex_ deployment config. This hi
 The _mongodb-36-centos7_ deployment config has a dark blue circle around it, meaning that a pod is running with a MongoDB container on it. The MongoDB should be all set to support the _nodejs-ex_ application at this point.
 
 In the next section, you'll learn how to use Tekton tasks.
+
+Clear your terminal before continuing. Running the command below will also return you to the terminal:
+
+[source,bash,role=execute-1]
+----
+clear
+----

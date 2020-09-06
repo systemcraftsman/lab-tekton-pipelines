@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: transfer-image
+spec:
+  inputs:
+    resources:
+      - name: image
+        type: image
+    params:
+      - name: TLSVERIFY
+        description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
+        default: "false"
+  outputs:
+    resources:
+      - name: image
+        type: image
+  steps:
+    - name: transfer
+      image: quay.io/rhpipeline/skopeo:alpine
+      command:
+        [
+          "skopeo",
+          "copy",
+          "--src-tls-verify=$(inputs.params.TLSVERIFY)",
+          "--dest-tls-verify=$(inputs.params.TLSVERIFY)",
+          "--dest-creds=${EXTERNAL_IMAGE_REGISTRY_USER_NAME}:${EXTERNAL_IMAGE_REGISTRY_PASSWORD}",
+          "docker://$(inputs.resources.image.url)",
+          "docker://$(outputs.resources.image.url)",
+        ]
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+      securityContext:
+        privileged: true

@@ -1,0 +1,35 @@
+Before starting to this workshop you have to setup some environment variables due to the you have set up and *prod* OpenShift cluster you have on IBM Cloud.
+
+First open the `env-vars.sh` file with `vi` and set the information you get for your `EXTERNAL_IMAGE_REGISTRY_PASSWORD`, `PROD_CLUSTER_URL` and `PROD_CLUSTER_TOKEN`.
+
+[source,bash,role=execute-1]
+----
+vi setup/env-vars.sh
+----
+
+Fill in the relevant areas:
+
+[source,bash]
+----
+export EXTERNAL_IMAGE_REGISTRY_PASSWORD=[IBM REGISTRY TOKEN]
+export PROD_CLUSTER_URL=[IBM CLOUD OPENSHIFT URL]
+export PROD_CLUSTER_TOKEN=[IBM CLOUD OPENSHIFT TOKEN]
+----
+
+Save the file with a `:wq!` and exit.
+
+Now you can run the `setup-environment.sh` file for setting up the environment.
+
+[source,bash,role=execute-1]
+----
+chmod a+x setup/setup-environment.sh && ./setup/setup-environment.sh
+----
+
+Make sure that the script runs without any errors. 
+
+Now we can continue with deploying the sample application. Clear your terminal before continuing:
+
+[source,bash,role=execute-1]
+----
+clear
+----

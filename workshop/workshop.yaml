@@ -5,6 +5,7 @@ modules:
     - intro
     - 01install-op
     - 02serviceaccount
+    - 02setup-environment
     - 03deploy-sample
     - 04create-task
     - 05task-resource-def
@@ -13,4 +14,6 @@ modules:
     - 08trigger-pipeline
     - 09pipelines-console
     - 10verify-deployment
+    - 11create-production-pipeline
+    - 12trigger-production-pipeline
     - finish

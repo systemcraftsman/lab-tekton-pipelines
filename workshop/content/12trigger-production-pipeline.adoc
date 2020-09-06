@@ -1,0 +1,32 @@
+Now, since everything is ready, it is time to trigger the deployment to production. As you can recall we can either create a PipelineRun instance, or use `tkn` command line interface which is recommended in this case. 
+
+Run the pipeline by setting the relevant resources as follows:
+
+[source,bash,role=execute-1]
+----
+tkn pipeline start prod-deploy-pipeline \
+        -r prod-cluster=prod-cluster \
+        -r app-external-image=nodejs-ex-external-image \
+        -s pipeline
+----
+
+Apart from the console logs, as you may recall you can also check the pipeline run from the `non-prod` cluster console on the right-hand side:
+
+image:../images/prod-pipelinerun-logs.png[Prod PipelineRun logs]
+
+
+While the pipeline is running check the overview page of your `prod` cluster. You can see the deployment is started:
+
+image:../images/prod-ocp-web-console-deployment.png[Prod OCP Web Console Deployment]
+
+After waiting a couple of seconds you can see that it is successfully deployed:
+
+image:../images/prod-ocp-web-console-deployment-success.png[Prod OCP Web Console Deployment Successful]
+
+For verifying the application running on the cluster click on the route link under **Routes - External Traffic** title:
+
+image:../images/prod-ocp-web-console-deployment-app-verify.png[Prod OCP Web Console Deployment App Verify]
+
+*Congratulations!* You have successfully deployed your application on another cluster just by promoting the image using Tekton/OpenShift Pipelines. 
+
+Click Continue for additional resources on OpenShift and Tekton

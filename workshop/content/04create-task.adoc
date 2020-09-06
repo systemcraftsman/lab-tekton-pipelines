@@ -1,148 +1,104 @@
-`Tasks` consist of some steps that get executed sequentially. Each step gets executed in a separate container within the same task pod. They can have inputs and outputs to interact with other `Tasks` as part of a pipeline.
+Tasks consist of a number of steps that are executed sequentially. Each step is
+executed in a separate container within the same task pod. Tasks can have inputs
+and outputs in order to interact with other tasks as part of a pipeline.
 
-For this exercise, you will create the _s2i-nodejs_ task from the catalogue repositories using oc. This is the first of two tasks you add to your pipeline for this workshop.
+By hosting each step of a task in its own container, you can package all the tools
+that are needed for a particular step in the container image used by the step. Using OpenShift,
+these containers can be very easily created and deleted, so they only run when they are needed
+(i.e. during a CI/CD pipeline run).
 
-The _s2i-nodejs_ task has been broken into pieces below to help highlight its key aspects.
-
-_s2i-nodejs_ starts by defining a property called inputs, as shown below. Underneath inputs, a property called resources specify that a resource of type _git_ is required. This property indicates that this task takes a git repository as an input.
+Here is an example of a Maven task for building a Maven-based Java application:
 
 [source,yaml]
 ----
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: maven-build
 spec:
   inputs:
     resources:
-      - name: source
-        type: git
+    - name: workspace-git
+      targetPath: /
+      type: git
+  steps:
+  - name: build
+    image: maven:3.6.0-jdk-8-slim
+    command:
+    - /usr/bin/mvn
+    args:
+    - install
 ----
 
-The params property below defines fields that must be specified when using the task (e.g. the version of Node.js to use).
+When a task starts running, it starts a pod and runs each step sequentially in
+a separate container in the same pod. The task above happens to have a single step,
+but tasks can have multiple steps. Since these steps run within the same pod,
+they have access to the same volumes in order to cache files, access configmaps,
+secrets, etc. Tasks can also receive inputs (e.g. a git repository) and produce
+outputs (e.g. an image in a registry) in order to interact with each other.
 
-[source,yaml]
-----
-    params:
-      - name: VERSION
-        description: The version of the nodejs
-        default: '12'
-      - name: PATH_CONTEXT
-        description: The location of the path to run s2i from.
-        default: .
-      - name: TLSVERIFY
-        description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
-        default: "true"
-----
+For each step as part of a task, an image is declared that will be used to host
+the step as it executes. In the example above, the image specified is `maven:3.6.0-jdk-8-slim`.
+The `maven:3.6.0-jdk-8-slim` image allows the step to run in a container a that provides
+necessary libraries to run a `mvn install` command to add an artifact to a local repository.
 
-There is also an _outputs_ property shown below that is used to specify that something is output as a result of running this task. The type of output is _image_. This property specifies that this task creates an image from the git repository provided as an input.
+Only the requirement for a git repository is declared on the task under the `inputs:` property
+above and not a specific git repository to be used. This allows tasks to be reusable for multiple
+pipelines and purposes. You can find more examples of reusable tasks in the link:https://github.com/tektoncd/catalog[Tekton Catalog]
+and link:https://github.com/openshift/pipelines-catalog[OpenShift Catalog] repositories.
 
-Many resource types are possible and not only limited to git and image. You can find out more about the possible resource types in the https://github.com/tektoncd/pipeline/blob/master/docs/resources.md#resource-types[Tekton documentation].
+Now that you understand the concept of a task, you should create the `s2i-nodejs`
+and `deploy` tasks from the catalog repositories using `oc`. These will
+be the tasks you add to your pipeline for this workshop.
 
-[source,yaml]
-----
-  outputs:
-    resources:
-      - name: image
-        type: image
-----
+Create the `s2i-nodejs` task that will define and build a container image for the
+`nodejs-ex` application and push the resulting image to an image registry:
 
-For each step of the task, a steps property is used to define what steps will run during this task. Each step is denoted by its name. _s2i-nodejs_ has three steps:
-
-generate
-
-[source,yaml]
-----
-    - name: generate
-      image: quay.io/openshift-pipeline/s2i
-      workingdir: /workspace/source
-      command: ['s2i', 'build', '$(inputs.params.PATH_CONTEXT)', 'centos/nodejs-$(inputs.params.VERSION)-centos7', '--as-dockerfile', '/gen-source/Dockerfile.gen']
-      volumeMounts:
-        - name: gen-source
-          mountPath: /gen-source
-      resources:
-        limits:
-          cpu: 500m
-          memory: 1Gi
-        requests:
-          cpu: 500m
-          memory: 1Gi
-----
-
-build
-
-[source,yaml]
-----
-    - name: build
-      image: quay.io/buildah/stable
-      workingdir: /gen-source
-      command: ['buildah', 'bud', '--tls-verify=$(inputs.params.TLSVERIFY)', '--layers', '-f', '/gen-source/Dockerfile.gen', '-t', '$(outputs.resources.image.url)', '.']
-      volumeMounts:
-        - name: varlibcontainers
-          mountPath: /var/lib/containers
-        - name: gen-source
-          mountPath: /gen-source
-      resources:
-        limits:
-          cpu: 500m
-          memory: 1Gi
-        requests:
-          cpu: 500m
-          memory: 1Gi
-      securityContext:
-        privileged: true
-----
-
-push
-
-[source,yaml]
-----
-    - name: push
-      image: quay.io/buildah/stable
-      command: ['buildah', 'push', '--tls-verify=$(inputs.params.TLSVERIFY)', '$(outputs.resources.image.url)', 'docker://$(outputs.resources.image.url)']
-      volumeMounts:
-        - name: varlibcontainers
-          mountPath: /var/lib/containers
-      resources:
-        limits:
-          cpu: 500m
-          memory: 1Gi
-        requests:
-          cpu: 500m
-          memory: 1Gi
-      securityContext:
-        privileged: true
-----
-
-Each step above runs serially in its own container. Since the generate step uses an s2i command to generate a Dockerfile from the source code from the git repository input, the image used for its container has s2i installed.
-
-The build and push steps both use a Buildah image to run commands to build the Dockerfile created by the generate step and then push that image to an image registry (i.e. the output of the task).
-
-You can see the images used for both these steps via the image property of each step.
-
-The order of the steps above (i.e. 1. generate 2. build 3. push) is used to specify when these steps should run. For _s2i-nodejs_, this means _generate_ will run followed by build and then the push step will execute last.
-
-Under the resources property of each step, you can define the amount of resources needed for the container in terms of CPU and memory.
-
-[source,yaml]
-----
-resources:
-limits:
-    cpu: 500m
-    memory: 1Gi
-requests:
-    cpu: 500m
-    memory: 1Gi
-----
-
-You can view the full definition of this task in the https://github.com/openshift/pipelines-catalog/blob/master/s2i-nodejs/s2i-nodejs-task.yaml[OpenShift Pipelines Catalog GitHub repository] or by using:
-
-[source,bash,role=execute]
-----
-cat ./tektontasks/s2i-nodejs-task.yaml
-----
-
-Create the _s2i-nodejs_ task that defines and builds a container image for the _nodejs-ex_ application and push the resulting image to an image registry:
-
-[source,bash,role=execute]
+[source,bash,role=execute-1]
 ----
 oc create -f tektontasks/s2i-nodejs-task.yaml
 ----
 
-In the next section, you will examine the second task definitions that will be needed for our pipeline.
+Create the `deploy` task that will deploy the image created by `s2i-nodejs`
+as a container on OpenShift:
+
+[source,bash,role=execute-1]
+----
+oc create -f tektontasks/deploy-task.yaml
+----
+
+Create the `transfer-image` task that will transfer the deployed image to your external registry, for deploying your *prod* cluster later.
+
+[source,bash,role=execute-1]
+----
+oc create -f tektontasks/transfer-image-task.yaml
+----
+
+**NOTE**: For convenience, the tasks have been copied from their original locations
+in the Tekton and OpenShift catalog git repositories to the workshop.
+
+You can take a look at the list of tasks using the link:https://github.com/tektoncd/cli[Tekton CLI] (`tkn`):
+
+[source,bash,role=execute-1]
+----
+tkn task ls
+----
+
+You should see similar output to this:
+
+[source,bash]
+----
+NAME               AGE
+deploy   58 seconds ago
+s2i-nodejs         1 minute ago
+transfer-image   3 seconds ago
+----
+
+In the next section, you will examine the task definitions you just created to
+gain a better understanding of the pipeline you will create. Clear your terminal
+before continuing:
+
+[source,bash,role=execute-1]
+----
+clear
+----

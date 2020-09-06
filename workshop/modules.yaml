@@ -8,6 +8,8 @@ modules:
         name: Install OpenShift Pipelines Operator
     02serviceaccount:
         name: Pipeline Service Account
+    02setup-environment:
+        name: Setup Environment
     03deploy-sample:
         name: Deploy a Sample Application
     04create-task:
@@ -24,6 +26,10 @@ modules:
         name: Web Console Visualization
     10verify-deployment:
         name: Verify Deployment
+    11create-production-pipeline:
+        name: Create Pipeline for Production Deployment
+    12trigger-production-pipeline:
+        name: Trigger Production Pipeline and Verify Deployment
     finish:
         name: Workshop Summary
         exit_sign: Finish Workshop
