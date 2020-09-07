@@ -7,4 +7,16 @@
 # the steps having already been run. This is because this script will be
 # run a second time if the container were restarted for some reason.
 
+export PREPROD_CLUSTER_URL=https://api.cluster-devnot-76ea.devnot-76ea.example.opentlc.com:6443
+export PROD_CLUSTER_URL=
+export PROD_CLUSTER_TOKEN=
+export EXTERNAL_IMAGE_REGISTRY_URI=quay.io
+export EXTERNAL_IMAGE_REGISTRY=$EXTERNAL_IMAGE_REGISTRY_URI/javadayistanbul2020
+export EXTERNAL_IMAGE_REGISTRY_USER_NAME=javadayistanbul2020+robot_user
+export EXTERNAL_IMAGE_REGISTRY_PASSWORD=J1OKEDZ56RWZWVJYL7QF0BLNKY1TVMEV4SDY0YNEJKS0FL97KEYGURCD8QNJ2ICK
+
 envsubst < resources/image-pipeline-resource.yaml.in > resources/image-pipeline-resource.yaml
+envsubst < resources/external-image-pipeline-resource.yaml.in > resources/external-image-pipeline-resource.yaml
+envsubst < resources/prod-cluster-resource.yaml.in > resources/prod-cluster-resource.yaml
+envsubst < pipeline/prod-deploy-pipeline.yaml.in > pipeline/prod-deploy-pipeline.yaml
+envsubst < tektontasks/transfer-image-task.yaml.in > tektontasks/transfer-image-task.yaml

@@ -8,8 +8,6 @@ modules:
         name: Install OpenShift Pipelines Operator
     02serviceaccount:
         name: Pipeline Service Account
-    02setup-environment:
-        name: Setup Environment
     03deploy-sample:
         name: Deploy a Sample Application
     04create-task:

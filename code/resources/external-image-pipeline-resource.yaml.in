@@ -8,4 +8,4 @@ spec:
   type: image
   params:
     - name: url
-      value: ${EXTERNAL_IMAGE_REGISTRY}/${PROJECT_NAMESPACE}/nodejs-ex
+      value: ${EXTERNAL_IMAGE_REGISTRY}/${JUPYTERHUB_USER}-nodejs-ex
