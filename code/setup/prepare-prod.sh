@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PREPROD_CLUSTER_TOKEN=$(oc whoami -t) &&
 
 echo "Switching to PROD cluster"

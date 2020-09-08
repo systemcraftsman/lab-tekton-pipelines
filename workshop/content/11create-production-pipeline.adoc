@@ -1,15 +1,8 @@
-Now you will deploy the image which you transfered to your external registry into prod cluster you setup. Remember that you provided some inputs to env-vars.sh file:
-
-[source,bash,role=execute-1]
-----
-cat setup/env-vars.sh
-----
-
 Before any deployment to production we have to setup some things on the `prod` cluster like we did to non-prod cluster before: creating the DeploymentConfig of the `nodejs-ex` application, creating its dependencies like `mongodb` etc. And we have to setup some things like image registry for the deployment to pull the image from the external one. So run the script below:
 
 [source,bash,role=execute-1]
 ----
-./setup/prepare-prod.sh
+chmod a+x ./setup/prepare-prod.sh;./setup/prepare-prod.sh
 ----
 
 Script will switch to the production cluster, make the preperations and switch back to the `non-prod` cluster which we run the workshop on.

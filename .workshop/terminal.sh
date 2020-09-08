@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# This 'setup' script is where you can add steps that should be run each
-# time the container for the workshop is started. Note that if you are
-# using persistent storage with a workshop and make changes to files from
-# this script, or are deploying applications, your scripts must cope with
-# the steps having already been run. This is because this script will be
-# run a second time if the container were restarted for some reason.
-
 export PREPROD_CLUSTER_URL=https://api.cluster-devnot-76ea.devnot-76ea.example.opentlc.com:6443
 export PROD_CLUSTER_URL=https://api.cluster-prodjday-da40.prodjday-da40.example.opentlc.com:6443
 export PROD_CLUSTER_TOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6IndvcmtzaG9wLWFkbS10b2tlbi1uNno4dyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJ3b3Jrc2hvcC1hZG0iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2OTgwMThiNS1mMjIzLTExZWEtYWYxNi0wMjk5YTc5YmE2YTYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDp3b3Jrc2hvcC1hZG0ifQ.nthWb7wlUTRwGU5O0AWBn47yNdhdN3cxbC0xR_fHsoXZCWQjV98AW8nPyTtg3D0tKkydoDDKM_eEB1L2cabeEELtEurbat9v7Ah6V6XEu8bZPmYS_UXV1a86PUQAfSjDXDb6_fSGF3jTf7FyPBWM0HWLuFLaV0wD4H0XBFIq2CaNAfc7akk2hJ9rBo_gNlVnp65S4ugKdRlyiEGBLmgmIEUxJByx8hS-by9nRYAoBaLF97gTNdWi1rDjhX2fCm_p-kmVrAeieDiOYNQ9KcfGriyAZNU_u9TNVXJ7YmMSM0PBvF140SUmRhNxQqqFE7_lXnJzMwz3lKWGa3Jbadd3Mw
@@ -14,9 +7,3 @@ export EXTERNAL_IMAGE_REGISTRY_URI=quay.io
 export EXTERNAL_IMAGE_REGISTRY=$EXTERNAL_IMAGE_REGISTRY_URI/javadayistanbul2020
 export EXTERNAL_IMAGE_REGISTRY_USER_NAME=javadayistanbul2020+robot_user
 export EXTERNAL_IMAGE_REGISTRY_PASSWORD=J1OKEDZ56RWZWVJYL7QF0BLNKY1TVMEV4SDY0YNEJKS0FL97KEYGURCD8QNJ2ICK
-
-envsubst < resources/image-pipeline-resource.yaml.in > resources/image-pipeline-resource.yaml
-envsubst < resources/external-image-pipeline-resource.yaml.in > resources/external-image-pipeline-resource.yaml
-envsubst < resources/prod-cluster-resource.yaml.in > resources/prod-cluster-resource.yaml
-envsubst < pipeline/prod-deploy-pipeline.yaml.in > pipeline/prod-deploy-pipeline.yaml
-envsubst < tektontasks/transfer-image-task.yaml.in > tektontasks/transfer-image-task.yaml
