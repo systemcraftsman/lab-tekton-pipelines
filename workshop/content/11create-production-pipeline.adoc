@@ -9,20 +9,15 @@ Script will switch to the production cluster, make the preperations and switch b
 
 After setting up the `prod`, please make sure the deployments are properly created and `mongodb` pods are running. 
 
-For this just go to the `prod` cluster console via IBM Cloud like you did before. 
+For this just go to the `prod` cluster console. 
 
-image:../images/ibm-ocp-web-console-button.png[IBM Cloud OCP Web Console]
+image:../images/ibm-ocp-web-console-button.png[OCP Web Console]
 
 
 When the Openshift console is opened check the pods and DeploymentConfigs by switching to the lab-tekton-pipelines-user**X** project in the Overview view:
 
 
 image:../images/prod-ocp-web-console-overview.png[Prod OCP Web Console Overview]
-
-[NOTE]
-====
-Since the prod cluster you setup in IBM Cloud is based on OpenShift 3.11 version, the UI is different from the cluster we use for non-prod environment.
-====
 
 
 After being sure everything is setup with no problem, let's have a look at the pipeline structure you will create:
@@ -79,7 +74,7 @@ As you have seen in the visualization of the pipeline we need two input resource
 
 One of the pipeline resources is already created before which we used as an output of the `transfer-image` task of the `deploy-pipeline`: *nodejs-ex-external-image*
 
-Other pipeline resource we need as an input for our `prod-deploy-pipeline` is a pipeline resource thats type must be a cluster, which includes the information about the production cluster we set up indivudially on IBM Cloud.
+Other pipeline resource we need as an input for our `prod-deploy-pipeline` is a pipeline resource thats type must be a cluster, which includes the information about the production cluster.
 
 
 [source,yaml]
@@ -116,7 +111,7 @@ oc create -f resources/prod-cluster-resource.yaml
 ----
 
 Now that pipeline resources have been specified, you can include these as part
-of our `prod-deploy-pipeline` pipeline run that will deploy the `nodejs-ex` application out to OpenShift cluster on IBM Cloud. 
+of our `prod-deploy-pipeline` pipeline run that will deploy the `nodejs-ex` application out to the prod OpenShift cluster. 
 
 Next, you will trigger the pipeline you created and make a production deployment.
 

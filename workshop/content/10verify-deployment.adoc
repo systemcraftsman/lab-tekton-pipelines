@@ -31,4 +31,4 @@ the data that it uses.
 
 Congratulations! You have successfully deployed your first application using OpenShift Pipelines. 
 
-Now it is time to promote the application image to *prod* OpenShift cluster you set up before which is on IBM Cloud.
+Now it is time to promote the application image to *prod* OpenShift cluster.
