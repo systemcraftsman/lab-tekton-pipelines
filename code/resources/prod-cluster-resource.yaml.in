@@ -12,10 +12,8 @@ spec:
     - name: url
       value: ${PROD_CLUSTER_URL}
     - name: username
-      value: ''
+      value: ${JUPYTERHUB_USER}
     - name: password
-      value: ''
-    - name: token
-      value: ${PROD_CLUSTER_TOKEN}
+      value: ${PROD_CLUSTER_USER_PWD}
     - name: cadata
       value: ''
