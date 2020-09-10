@@ -9,20 +9,25 @@ Script will switch to the production cluster, make the preperations and switch b
 
 After setting up the `prod`, please make sure the deployments are properly created and `mongodb` pods are running. 
 
-For this just go to the `prod` cluster console. 
-
-image:../images/ibm-ocp-web-console-button.png[OCP Web Console]
+For this just go to the `prod` cluster console by clicking the following link: 
 
 
-When the Openshift console is opened check the pods and DeploymentConfigs by switching to the lab-tekton-pipelines-user**X** project in the Overview view:
+http://console-openshift-console.apps.cluster-jday-prd-611a.jday-prd-611a.example.opentlc.com
+
+Username: user**X**
+
+Password: openshift
 
 
-image:../images/prod-ocp-web-console-overview.png[Prod OCP Web Console Overview]
+When the Openshift console is opened check the pods and DeploymentConfigs by switching to the lab-tekton-pipelines-user**X** project in the "Developer" perspective's topology view:
+
+
+image:images/prod-ocp-web-console-overview.png[Prod OCP Web Console Overview]
 
 
 After being sure everything is setup with no problem, let's have a look at the pipeline structure you will create:
 
-image:../images/prod-pipeline-visual.png[Prod Pipeline Visualization]
+image:images/prod-pipeline-visual.png[Prod Pipeline Visualization]
 
 
 Let's start by creating the task that our production deployment pipeline will use. Here is the `prod-deploy` task we will create:

@@ -10,13 +10,13 @@ the overview page for a pipeline that you have in an OpenShift project.
 Since you now have a pipeline run for `deploy-pipeline`, you can now view the pipeline runs
 via the **Pipeline Runs** tab as shown below:
 
-image:../images/pipelineruns-tab.png[Pipeline Runs Tab]
+image:images/pipelineruns-tab.png[Pipeline Runs Tab]
 
 Click on the **Pipeline Runs** tab to see the pipeline runs for `deploy-pipeline`. Make
 sure to select the **Running** filter to show pipeline runs that are currently executing
 as shown below:
 
-image:../images/pipelineruns-filters.png[Pipeline Runs Filters]
+image:images/pipelineruns-filters.png[Pipeline Runs Filters]
 
 These filters allow you to also filter pipeline runs by ones that have finished (i.e. **Complete**)
 and ones that have failed (i.e. **Failed**).
@@ -26,7 +26,7 @@ To view the current pipeline run, click on the pipeline run name under the **Nam
 After clicking on the pipeline run name, you should see the tasks as part of
 your pipeline executing similar to what's displayed below:
 
-image:../images/web-console-tasks.png[Web Console Tasks]
+image:images/web-console-tasks.png[Web Console Tasks]
 
 By hovering your cursor over the `build` task, you can see the steps that the task
 will execute. You can also do this with the `deploy` task.
@@ -35,13 +35,13 @@ Just like you can view the logs through `tkn` as you did before, you can also vi
 the logs of your pipeline run through the web console by clicking on the **Logs** tab
 of the pipeline runs page as shown below:
 
-image:../images/pipelinerun-logs-tab.png[Pipeline Run Logs Tab]
+image:images/pipelinerun-logs-tab.png[Pipeline Run Logs Tab]
 
 The logs available through the web console display the executing tasks as part of your
 pipeline run. You should see the `build` task and eventually the `deploy` task display
 on the left side of the web console under the logs tab as shown below:
 
-image:../images/pipelinerun-logs.png[Pipeline Run Logs]
+image:images/pipelinerun-logs.png[Pipeline Run Logs]
 
 The log output is the same as what `tkn` displays. Each task will show the logs of the
 steps executing.
@@ -60,11 +60,11 @@ go out and see the application running on OpenShift:
 
 Through the web console, the log output will look like what is in the screenshot below:
 
-image:../images/web-console-logs-deploy-success.png[Web Console Logs Success]
+image:images/web-console-logs-deploy-success.png[Web Console Logs Success]
 
 And the transfer step should be like this:
 
-image:../images/web-console-logs-transfer-success.png[Web Console Logs Success]
+image:images/web-console-logs-transfer-success.png[Web Console Logs Success]
 
 If you do not see the message, just continue to watch the logs come in from the web console
 or `tkn` as your pipeline run finishes up.

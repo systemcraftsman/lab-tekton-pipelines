@@ -13,7 +13,7 @@ modules:
     04create-task:
         name: Create Tasks
     05task-resource-def:
-        name: Task Resource Definitions
+        name: Reviewing the Tasks
     06create-pipeline:
         name: Create a Pipeline
     07create-pipeline-resources:

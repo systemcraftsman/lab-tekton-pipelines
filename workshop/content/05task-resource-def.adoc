@@ -1,4 +1,4 @@
-In the previous section, you created two tasks called `s2i-nodejs` and `deploy`.
+In the previous section, you created three tasks called `s2i-nodejs`, `deploy` and `transfer-image`.
 Before adding these to a pipeline, take a look at the definitions of these tasks
 to understand how they work.
 

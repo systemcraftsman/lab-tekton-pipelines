@@ -12,20 +12,24 @@ tkn pipeline start prod-deploy-pipeline \
 
 Apart from the console logs, as you may recall you can also check the pipeline run from the `non-prod` cluster console on the right-hand side:
 
-image:../images/prod-pipelinerun-logs.png[Prod PipelineRun logs]
+image:images/prod-pipelinerun-logs.png[Prod PipelineRun logs]
 
 
 While the pipeline is running check the overview page of your `prod` cluster. You can see the deployment is started:
 
-image:../images/prod-ocp-web-console-deployment.png[Prod OCP Web Console Deployment]
+image:images/prod-ocp-web-console-deployment.png[Prod OCP Web Console Deployment]
 
 After waiting a couple of seconds you can see that it is successfully deployed:
 
-image:../images/prod-ocp-web-console-deployment-success.png[Prod OCP Web Console Deployment Successful]
+image:images/prod-ocp-web-console-deployment-success.png[Prod OCP Web Console Deployment Successful]
 
-For verifying the application running on the cluster click on the route link under **Routes - External Traffic** title:
+For verifying the application running on the cluster click on the "Resources" tab and get the route link under **Routes** title:
 
-image:../images/prod-ocp-web-console-deployment-app-verify.png[Prod OCP Web Console Deployment App Verify]
+image:images/prod-ocp-web-console-route.png[Prod OCP Web Console Route]
+
+After clicking the link you should be seeing the application page deployed on your production cluster:
+
+image:images/prod-ocp-web-console-deployment-app-verify.png[Prod OCP Web Console Deployment App Verify]
 
 *Congratulations!* You have successfully deployed your application on another cluster just by promoting the image using Tekton/OpenShift Pipelines. 
 

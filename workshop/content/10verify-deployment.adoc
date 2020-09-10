@@ -4,7 +4,7 @@ clicking on the **Console** at the center top of the workshop in your browser.
 Click on the **Topology** tab on the left side of the web console. You should
 see something similar to what is shown in the screenshot below:
 
-image:../images/topology-view-deployed.png[Topology View Deployed]
+image:images/topology-view-deployed.png[Topology View Deployed]
 
 The **Topology** view of the OpenShift web console helps to visually show what is
 deployed out to your OpenShift project. As mentioned earlier, the dark blue lining around
@@ -12,7 +12,7 @@ the `nodejs-ex` circle means that a container is started up and running the `nod
 By clicking on the arrow icon as shown below, you can open the url for `nodejs-ex` in a new tab
 and see the application running.
 
-image:../images/url-icon.png[URL Icon]
+image:images/url-icon.png[URL Icon]
 
 After clicking on the icon, you should see the `nodejs-ex` running in a new tab.
 
@@ -20,7 +20,7 @@ One of the things you will notice about the application is the **Request informa
 section in the bottom right corner of your browser tab where `nodejs-ex` is running.
 This shows how the MongoDB is connected to `nodejs-ex`.
 
-image:../images/request-information.png[Request information]
+image:images/request-information.png[Request information]
 
 The MongoDB is used to store the amount of times the page is viewed. If you refresh
 the page, the page view count will increment to show the page was loaded again.
