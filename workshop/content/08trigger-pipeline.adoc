@@ -149,7 +149,7 @@ a pipeline run through the OpenShift web console in the next section. Leave the 
 running so that you can confirm the successful deployment and image transfer message when the pipeline run
 finishes.
 
-To check the transfered image, just go to the https://quay.io/organization/javadayistanbul2020/user**X**-nodejs-ex:
+To check the transfered image, just go to the :
 
 image:../images/ibm-image-repository-check-image.png[Check Image Repository]
 
