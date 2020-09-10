@@ -5,7 +5,7 @@ Before any deployment to production we have to setup some things on the `prod` c
 chmod a+x ./setup/prepare-prod.sh;./setup/prepare-prod.sh
 ----
 
-Script will switch to the production cluster, make the preperations and switch back to the `non-prod` cluster which we run the workshop on.
+Script will switch to the production cluster, make the preparations and switch back to the `non-prod` cluster which we run the workshop on.
 
 After setting up the `prod`, please make sure the deployments are properly created and `mongodb` pods are running. 
 
