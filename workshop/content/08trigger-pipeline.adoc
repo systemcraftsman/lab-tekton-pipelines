@@ -151,7 +151,7 @@ finishes.
 
 To check the transfered image, just go to the https://quay.io/organization/javadayistanbul2020 and click for your user's repository user**X**-nodejs-ex:
 
-image:../images/ibm-image-repository-check-image.png[Check Image Repository]
+image:images/quay-check-image.png[Check Image Repository]
 
 Clear the terminal without the running logs before continuing:
 [source,bash,role=execute-2]

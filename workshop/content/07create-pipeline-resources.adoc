@@ -35,8 +35,6 @@ These valid options include:
 * `image` - indicates a pipeline resource is a container image
 * `storage` - indicates a pipeline resource is a storage blob resource
 * `cluster` - indicates a pipeline resource is a Kubernetes cluster image
-* `pullRequest` - indicates a pipeline resource is an SCM pull request
-* `cloudEvent` - indicates a pipeline resource is a cloud event URI
 
 There will be more valid types added to the Tekton API moving forward, but you will
 only need to focus on the `git` and `image` types for this workshop.

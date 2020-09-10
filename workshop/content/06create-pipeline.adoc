@@ -14,34 +14,49 @@ metadata:
     app: tekton-workshop
 spec:
   resources:
-  - name: app-git
-    type: git
-  - name: app-image
-    type: image
-  - name: app-external-image
-    type: image
+    - name: app-git
+      type: git
+    - name: app-image
+      type: image
+    - name: app-external-image
+      type: image
   tasks:
-  - name: build
-    taskRef:
-      name: s2i-nodejs
-    params:
-      - name: TLSVERIFY
-        value: "false"
-    resources:
-      inputs:
-      - name: source
-        resource: app-git
-      outputs:
-      - name: image
-        resource: app-image
-  - name: deploy
-    taskRef:
-      name: openshift-client
-    runAfter:
-      - build
-    params:
-    - name: ARGS
-      value: "rollout latest nodejs-ex"
+    - name: build
+      taskRef:
+        name: s2i-nodejs
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: source
+            resource: app-git
+        outputs:
+          - name: image
+            resource: app-image
+    - name: deploy
+      taskRef:
+        name: deploy
+      runAfter:
+        - build
+      params:
+        - name: dc-name
+          value: "nodejs-ex"
+    - name: transfer
+      taskRef:
+        name: transfer-image
+      runAfter:
+        - deploy
+      params:
+        - name: TLSVERIFY
+          value: "false"
+      resources:
+        inputs:
+          - name: image
+            resource: app-image
+        outputs:
+          - name: image
+            resource: app-external-image
 ----
 
 This pipeline performs the following:
@@ -54,6 +69,8 @@ a Dockerfile for the application and uses Buildah to build the image
 resource)
 * The new application image is deployed on OpenShift using the
 _openshift-client_ task
+* The new application image is transferred to quay.io image repository using the
+_transfer-image_ task
 
 The pipeline definition above shows how tasks are added to a pipeline. Each pipeline has a _tasks_ property. Under this property, each task has a name. For this pipeline, it has two tasks named _build_ and _deploy_. The `taskRef` property under each task name is where the tasks you just created can be specified as part of the pipeline.
 
@@ -61,7 +78,7 @@ You might have noticed that there are no references to the _nodejs-ex_ git repos
 
 Pipeline resources such as the git source repository and image registry are abstracted away from the pipeline. When triggering a pipeline, you can provide different git repositories and image registries to be used during the pipeline execution. You will do that in the next section.
 
-For the deploy task of the pipeline, you can see under the params property that a value is passed: "rollout latest nodejs-ex". This argument is how `oc rollout latest nodejs-ex` will be run for the oc step of the _openshift-client task_. This command deploys an image called _nodejs-ex_ that has the tag latest associated with it, meaning the most recently pushed version of the image.
+For the deploy task of the pipeline, you can see under the params property that a value is passed: "nodejs-ex". This argument is how `oc rollout latest nodejs-ex` will be run for the oc step of the _openshift-client task_. This command deploys an image called _nodejs-ex_ that has the tag latest associated with it, meaning the most recently pushed version of the image.
 
 The execution order of tasks is determined based on the dependencies that defined between the tasks. Those dependencies are defined via inputs and outputs as well as explicit orders that are defined via `runAfter`. You'll notice the deploy task above has a _runAfter_ property specifying only to execute after the build task is complete.
 

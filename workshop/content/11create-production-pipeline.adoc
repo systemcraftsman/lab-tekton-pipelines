@@ -1,4 +1,4 @@
-Before any deployment to production we have to setup some things on the `prod` cluster like we did to non-prod cluster before: creating the DeploymentConfig of the `nodejs-ex` application, creating its dependencies like `mongodb` etc. And we have to setup some things like image registry for the deployment to pull the image from the external one. So run the script below:
+Before any deployment to production we have to setup some things on the `prod` cluster : creating the DeploymentConfig of the `nodejs-ex` application, creating its dependencies like `mongodb` etc. And we have to setup some things like image registry for the deployment to pull the image from the external one. So run the script below:
 
 [source,bash,role=execute-1]
 ----
