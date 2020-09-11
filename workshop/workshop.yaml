@@ -1,4 +1,4 @@
-name: OpenShift Pipelines with Tekton
+name: CI/CD with Tekton in a Multi-Cluster Environment
 
 modules:
     activate:
