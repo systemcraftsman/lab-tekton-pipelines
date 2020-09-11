@@ -1,30 +1,33 @@
-# Lab - OpenShift Pipelines with Tekton
+== Workshop - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
 
-* [Overview](#overview)
-* [Deploying the Workshop](#deploying-the-workshop)
-  * [Deploying to OpenShift](#deploying-to-openshift)
-  * [Deploying on Red Hat Product Demo System](#deploying-on-red-hat-product-demo-system)
-* [Running the Workshop](#running-the-workshop)
-* [Deleting the Workshop](#deleting-the-workshop)
-* [Development](#development)
+=== Overview
 
-## Overview
+This workshop provides an introduction to OpenShift Pipelines with
+Tekton in a Multi-Cluster Environment which uses another OpenShift cluster, and an external pseudo-*non-prod*
+cluster for both running the workshop and run non-prod pipeline
+operations.
 
-This workshop provides an introduction to OpenShift Pipelines with Tekton.
-Please check [releases](https://github.com/openshift-labs/lab-tekton-pipelines/releases)
-for the latest version of the workshop and also make sure to note if a version
-released has been deprecated.
+Here is the basic architecture of this workshop:
 
-| | |
---- | ---
-| Audience Experience Level | Intermediate |
-| Supported Number of Users | One per cluster [1] |
-| Average Time to Complete | 30 minutes |
+image:./workshop/content/images/workshop-general-diagram.png[Workshop General Diagram]
 
-The workshop uses the HomeRoom workshop environment in the learning portal configuration.
-You will need to be a cluster admin in order to deploy it.
+The workshop will include two pipelines regarding to the infrastructure above:
 
-When the URL for the workshop environment is accessed, a workshop session will be created on demand.
+==== Non-prod Pipeline
+
+image:./workshop/content/images/pipeline-visual.png[Pipeline Visualization]
+
+==== Prod Pipeline
+
+image:./workshop/content/images/prod-pipeline-visual.png[Prod Pipeline Visualization]
+
+The workshop uses the HomeRoom workshop environment in the learning
+portal configuration. You will need to be a cluster admin in order to
+deploy it.
+
+When the URL for the workshop environment is accessed, a workshop
+session will be created on demand.
+
 
 ## Deploying the Workshop
 
