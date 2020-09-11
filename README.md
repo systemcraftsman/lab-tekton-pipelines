@@ -1,6 +1,6 @@
-== Workshop - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
+# Workshop - OpenShift Pipelines with Tekton in a Multi-Cluster Environment
 
-=== Overview
+## Overview
 
 This workshop provides an introduction to OpenShift Pipelines with
 Tekton in a Multi-Cluster Environment which uses another OpenShift cluster, and an external pseudo-*non-prod*
@@ -9,17 +9,17 @@ operations.
 
 Here is the basic architecture of this workshop:
 
-image:./workshop/content/images/workshop-general-diagram.png[Workshop General Diagram]
+![Workshop General Diagram](./workshop/content/images/workshop-general-diagram.png)
 
 The workshop will include two pipelines regarding to the infrastructure above:
 
-==== Non-prod Pipeline
+### Non-prod Pipeline
 
-image:./workshop/content/images/pipeline-visual.png[Pipeline Visualization]
+![Pipeline Visualization](./workshop/content/images/pipeline-visual.png)
 
-==== Prod Pipeline
+### Prod Pipeline
 
-image:./workshop/content/images/prod-pipeline-visual.png[Prod Pipeline Visualization]
+![Prod Pipeline Visualization](./workshop/content/images/prod-pipeline-visual.png)
 
 The workshop uses the HomeRoom workshop environment in the learning
 portal configuration. You will need to be a cluster admin in order to
